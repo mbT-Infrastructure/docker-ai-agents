@@ -22,20 +22,30 @@ configuration. Alternatively a customized `openclaw.json` can be mounted in the 
     - Configure the allowed origin for the Control UI, default `http://127.0.0.1:18789`.
 - `AI_MODEL`
     - The AI model used by the default config file, default: `default`.
+- `AUTH_MODE`
+    - The authentication mode for the gateway used by the default config file, default: `token`.
+- `BASE_PATH`
+    - The base path for the gateway used by the default config file, default: `/`.
 - `BRAVE_API_KEY`
     - The API key for Brave Search used by the default config file.
 - `OPENCLAW_HOME`
     - The OpenClaw home directory, default: `/media/openclaw`.
 - `OPENCLAW_CONFIG_PATH`
     - The path to the OpenClaw configuration file, default: `/opt/openclaw/openclaw.json`. Set this to e. g. `~/.openclaw/openclaw.json` to make the config file changeable by openclaw.
+- `OPENCLAW_STATE_DIR`
+    - The path to the OpenClaw state directory, default: `/media/openclaw/.openclaw`.
 - `PASSWORD`
-    - The gateway token for OpenClaw used by the default config file.
+    - The gateway password and token for OpenClaw used by the default config file.
 - `SIGNAL_ACCOUNT`
     - The Signal account number used by the default config file.
 - `SIGNAL_ALLOW_FROM`
     - Allow messages from this Signal number used by the default config file.
 - `SIGNAL_SERVER_URL`
     - The URL of the Signal server used by the default config file, default: `http://signal-cli:8080`.
+- `TRUSTED_PROXY`
+    - The trusted proxy IP address or network in CIDR notation used by the default config file.
+- `USER`
+    - Allowed user for `trusted-proxy` auth mode.
 
 ### Volumes
 

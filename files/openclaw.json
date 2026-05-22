@@ -25,15 +25,19 @@
         "port": 18789,
         "bind": "lan",
         "auth": {
-            "mode": "token",
-            "token": "${PASSWORD}"
+            "mode": "${AUTH_MODE}",
+            "password": "${PASSWORD}",
+            "token": "${PASSWORD}",
+            "trustedProxy": {
+                "userHeader": "X-Forwarded-User",
+                "allowUsers": ["${USER}"]
+            }
         },
         "controlUi": {
-            "allowInsecureAuth": true,
-            "allowedOrigins": [
-                "${ALLOWED_ORIGIN}"
-            ]
-        }
+            "allowedOrigins": ["${ALLOWED_ORIGIN}"],
+            "basePath": "${BASE_PATH}"
+        },
+        "trustedProxies": ["${TRUSTED_PROXY}"]
     },
     "models": {
         "mode": "merge",
@@ -42,6 +46,7 @@
                 "baseUrl": "${AI_API_URL}/v1",
                 "apiKey": "${AI_API_KEY}",
                 "api": "openai-responses",
+                "timeoutSeconds": 1800,
                 "models": [
                     {
                         "id": "${AI_MODEL}",
