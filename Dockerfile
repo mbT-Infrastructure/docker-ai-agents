@@ -21,6 +21,7 @@ ENV OPEN_TERMINAL_API_KEY=""
 ENV SIGNAL_ACCOUNT=""
 ENV SIGNAL_ALLOWED_USERS=""
 ENV SIGNAL_GROUP_ALLOWED_USERS=""
+ENV SIGNAL_HOME_CHANNEL=""
 ENV SIGNAL_SERVER_URL="http://signal-cli:8080"
 
 CMD ["run-parallel.sh", "run-hermes.sh", "run-open-terminal.sh", "run-sshd.sh"]

@@ -30,6 +30,8 @@ Some configuration options are exposed as environment variables as listed below.
     - Comma-separated Signal numbers allowed to interact with the agents.
 - `SIGNAL_GROUP_ALLOWED_USERS`
     - Comma-separated Signal group IDs allowed to interact with the agents.
+- `SIGNAL_HOME_CHANNEL`
+    - Home channel for Signal, defaults to the first account of `SIGNAL_ALLOWED_USERS`.
 - `SIGNAL_SERVER_URL`
     - URL of the Signal server (default: `http://signal-cli:8080`).
 
