@@ -25,15 +25,15 @@ jobs:
               uses: actions/cache/restore@v4
               with:
                   path: /media/saved-cache
-                  key: docker-openclaw-sandbox-build-cache-${{ github.run_id }}
-                  restore-keys: docker-openclaw-sandbox-build-cache
+                  key: docker-ai-agents-build-cache-${{ github.run_id }}
+                  restore-keys: docker-ai-agents-build-cache
             - name: Import cache
               run: |
                   if (ls /media/saved-cache/*.tar.zst); then
                       docker run --pull always --rm \
                           --volume "/media/saved-cache:/media/saved-cache" \
                           --volume \
-                          "docker-openclaw-sandbox-build-cache:/media/build-cache" \
+                          "docker-ai-agents-build-cache:/media/build-cache" \
                           --workdir /media \
                           madebytimo/scripts \
                           compress.sh --decompress /media/saved-cache/*.tar.zst
@@ -94,7 +94,7 @@ jobs:
                   docker run --pull missing --rm \
                       --volume "/media/saved-cache:/media/saved-cache" \
                       --volume \
-                      "docker-openclaw-sandbox-build-cache:/media/build-cache" \
+                      "docker-ai-agents-build-cache:/media/build-cache" \
                       madebytimo/scripts \
                       compress.sh --fast --output /media/saved-cache/build-cache /media/build-cache
                   sudo chown -R "$(whoami)" /media/saved-cache
@@ -103,7 +103,7 @@ jobs:
                 GH_TOKEN: ${{ github.token }}
               run: |
                   for CACHE in $(gh cache list \
-                          --key docker-openclaw-sandbox-build-cache \
+                          --key docker-ai-agents-build-cache \
                           --ref ${{ github.ref}} \
                           | cut --fields 1); do
                       echo "Deleting cache \"$CACHE\"."
@@ -113,4 +113,4 @@ jobs:
               uses: actions/cache/save@v4
               with:
                   path: /media/saved-cache
-                  key: docker-openclaw-sandbox-build-cache-${{ github.run_id }}
+                  key: docker-ai-agents-build-cache-${{ github.run_id }}

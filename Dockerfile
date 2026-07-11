@@ -2,38 +2,30 @@ FROM madebytimo/development
 
 ENV USER_GROUPS="user"
 
-RUN npm install --global openclaw@latest \
-    && usermod --groups "$USER_GROUPS" user \
-    && mkdir /media/openclaw \
-    && chown user:user /media/openclaw
+ADD --chmod=+x https://hermes-agent.nousresearch.com/install.sh /usr/local/bin/hermes-install.sh
+RUN apt update -qq && apt install -y -qq ripgrep \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip3-latest install open-terminal \
+    && hermes-install.sh --skip-setup
 
-WORKDIR /opt/openclaw
-COPY files/entrypoint-openclaw.sh files/healthcheck-openclaw.sh files/run-openclaw.sh /usr/local/bin/
-COPY files/openclaw.json  /opt/openclaw
+COPY files/healthcheck-open-terminal.sh files/run-hermes.sh files/run-open-terminal.sh \
+    /usr/local/bin/
 
 ENV AI_API_URL=""
 ENV AI_API_KEY=""
+ENV AI_CONTEXT_LENGTH=512000
 ENV AI_MODEL=default
-ENV ALLOWED_ORIGIN="http://127.0.0.1:18789"
-ENV AUTH_MODE="token"
 ENV BASE_PATH="/"
 ENV BRAVE_API_KEY=""
-ENV OPENCLAW_HOME="/media/openclaw"
-ENV OPENCLAW_CONFIG_PATH="/opt/openclaw/openclaw.json"
-ENV OPENCLAW_STATE_DIR="/media/openclaw/.openclaw"
-ENV PASSWORD=""
+ENV OPEN_TERMINAL_API_KEY=""
 ENV SIGNAL_ACCOUNT=""
-ENV SIGNAL_ALLOW_FROM=""
+ENV SIGNAL_ALLOWED_USERS=""
+ENV SIGNAL_GROUP_ALLOWED_USERS=""
 ENV SIGNAL_SERVER_URL="http://signal-cli:8080"
-ENV TRUSTED_PROXY=""
-ENV USER=""
 
-USER user
-WORKDIR /media/user
-ENTRYPOINT [ "entrypoint-openclaw.sh" ]
-CMD [ "run-openclaw.sh" ]
+CMD ["run-parallel.sh", "run-hermes.sh", "run-open-terminal.sh", "run-sshd.sh"]
 
-HEALTHCHECK CMD [ "healthcheck-openclaw.sh" ]
+HEALTHCHECK CMD [ "bash", "-c", "healthcheck-open-terminal.sh && healthcheck-sshd.sh" ]
 
 LABEL org.opencontainers.image.licenses="MIT"
-LABEL org.opencontainers.image.source="https://github.com/mbt-Infrastructure/docker-openclaw-sandbox"
+LABEL org.opencontainers.image.source="https://github.com/mbt-Infrastructure/docker-ai-agents"

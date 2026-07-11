@@ -5,10 +5,10 @@ BUILD_ARGUMENTS=()
 BUILDER_EXPORT_ARCHIVE="${BUILDER_EXPORT_ARCHIVE:-true}"
 DEPENDENCIES=(docker zstd)
 UPDATE_BASE=false
-PLATFORMS=(linux/amd64)
+PLATFORMS=(linux/amd64 linux/arm64)
 REGISTRY="docker.io/madebytimo"
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
-APPLICATION_NAME="openclaw-sandbox"
+APPLICATION_NAME="ai-agents"
 
 # help message
 for ARGUMENT in "$@"; do
@@ -52,7 +52,9 @@ cd "$PROJECT_DIR"
 mkdir --parents builds
 
 if [[ "$UPDATE_BASE" == true ]]; then
-    BASE_IMAGE="$(tac Dockerfile | grep --max-count=1 "^FROM" | cut -d" " -f2)"
+    BASE_IMAGE="$(grep "^FROM " Dockerfile \
+        | grep --invert-match --max-count=1  "^FROM scratch$" \
+        | cut -d" " -f2)"
     docker pull --quiet "$BASE_IMAGE"
     BASE_IMAGE_DATE="$(docker image inspect --format="{{ .Created }}" "$BASE_IMAGE" \
         | sed 's|^\([^T ]*\)[T ].*$|\1|')"
