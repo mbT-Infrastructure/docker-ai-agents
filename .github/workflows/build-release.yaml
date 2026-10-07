@@ -63,7 +63,7 @@ jobs:
             - name: Build
               if: ${{ github.event_name != 'schedule'}}
               run: |
-                  if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+                  if [[ "${GITHUB_REF}" == 'refs/heads/main' ]]; then
                       builder/build.sh --publish
                   else
                       builder/build.sh
@@ -79,10 +79,12 @@ jobs:
             - name: Prepare release files
               if: ${{ github.ref == 'refs/heads/main' && env.latest_version != env.version }}
               run: |
-                  docker run --pull missing --rm --volume "${PWD}/builds:/media/workdir" \
-                  madebytimo/scripts bash -c \
-                  "split-big-files.sh --size 2147483647 --replace --output /media/workdir \
-                  /media/workdir/*"
+                  if compgen -G "/media/workdir/*" > /dev/null; then
+                      docker run --pull missing --rm --volume "${PWD}/builds:/media/workdir" \
+                      madebytimo/scripts bash -c "set -e -o pipefail \
+                      split-big-files.sh --size 2147483647 --replace --output /media/workdir \
+                      /media/workdir/*"
+                  fi
             - name: Release
               if: ${{ github.ref == 'refs/heads/main' && env.latest_version != env.version }}
               uses: softprops/action-gh-release@v2
@@ -104,7 +106,7 @@ jobs:
               run: |
                   for CACHE in $(gh cache list \
                           --key docker-ai-agents-build-cache \
-                          --ref ${{ github.ref}} \
+                          --ref "${GITHUB_REF}" \
                           | cut --fields 1); do
                       echo "Deleting cache \"$CACHE\"."
                       gh cache delete "$CACHE"

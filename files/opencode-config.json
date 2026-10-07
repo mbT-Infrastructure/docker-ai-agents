@@ -11,6 +11,20 @@
                 "apiKey": "{env:AI_API_KEY}"
             },
             "models": {
+                "default": {
+                    "name": "default",
+                    "limit": {
+                        "context": 200000,
+                        "output": 32000
+                    }
+                },
+                "fast": {
+                    "name": "fast",
+                    "limit": {
+                        "context": 64000,
+                        "output": 32000
+                    }
+                },
                 "{env:AI_MODEL}": {
                     "name": "{env:AI_MODEL}",
                     "limit": {
