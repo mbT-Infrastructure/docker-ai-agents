@@ -21,12 +21,8 @@ The web interfaces of [Hermes] and [OpenCode] run on port `11002` and `11003`.
     - API key for the AI server.
 - `AI_CONTEXT_LENGTH`
     - Maximum context length used by the agents (default: `512000`).
-- `AI_MODEL`
-    - The AI model to use (default: `default`).
-- `AI_CHEAP_MODEL`
-    - The AI model to use for simple tasks.
-- `AI_VISION_MODEL`
-    - The vision AI model to use.
+- `AI_MODEL`, `AI_CHEAP_MODEL`, `AI_DECIDER_MODEL`, `AI_VISION_MODEL`
+    - The AI model to use.
 - `AI_REQUEST_TIMEOUT`
     - Request timeout for interference requests ins seconds (default: `1800`).
 - `BRAVE_API_KEY`

@@ -36,7 +36,7 @@ su user --login --whitelist-environment \
     && hermes config set providers.container-config.stale_timeout_seconds '$AI_REQUEST_TIMEOUT' \
     \
     && hermes config set providers.container-config.models.default.context_length 200000 \
-    && hermes config set providers.container-config.models.fast.context_length 200000 \
+    && hermes config set providers.container-config.models.fast.context_length 64000 \
     \
     && hermes config set desktop.electron_flags '[--no-sandbox, --disable-dev-shm-usage]' \
     && hermes config set display.bell_on_complete true \
@@ -50,8 +50,11 @@ su user --login --whitelist-environment \
         opencode-free,opencode-go,opencode-zen,openrouter,qwen-oauth,router,stepfun,\
         tencent-tokenhub,tencent-tokenplan,upstage,vertex,xai,xai-oauth,xiaomi,zai]' \
     && hermes config set privacy.redact_pii false \
+    && hermes config set skills.external_dirs '[/opt/ai-agent-library/skills]' \
     && hermes config set telemetry.shared_metrics.enabled false \
-    && hermes config set telemetry.shared_metrics.send false"
+    && hermes config set telemetry.shared_metrics.send false \
+    \
+    && replace-vars.sh /opt/ai-agent-library/AGENTS.md > ~/.hermes/SOUL.md"
 
 cat > /media/user/.hermes/.env <<EOF
 BRAVE_SEARCH_API_KEY=$BRAVE_API_KEY
