@@ -1,5 +1,8 @@
 {
     "$schema": "https://opencode.ai/config.json",
+    "agents": {
+        "plan": { "disabled": true }
+    },
     "model": "container-config/{env:AI_MODEL}",
     "small_model": "container-config/{env:AI_CHEAP_MODEL}",
     "provider": {

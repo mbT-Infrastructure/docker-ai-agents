@@ -32,11 +32,10 @@ su user --login --whitelist-environment \
     && hermes config set providers.container-config.base_url '$AI_API_URL' \
     && hermes config set providers.container-config.api_key '$AI_API_KEY' \
     && hermes config set providers.container-config.default_model '$AI_MODEL' \
+    && hermes config set 'providers.container-config.models.$AI_MODEL.context_length' \
+        '$AI_CONTEXT_LENGTH' \
     && hermes config set providers.container-config.request_timeout_seconds '$AI_REQUEST_TIMEOUT' \
     && hermes config set providers.container-config.stale_timeout_seconds '$AI_REQUEST_TIMEOUT' \
-    \
-    && hermes config set providers.container-config.models.default.context_length 200000 \
-    && hermes config set providers.container-config.models.fast.context_length 64000 \
     \
     && hermes config set desktop.electron_flags '[--no-sandbox, --disable-dev-shm-usage]' \
     && hermes config set display.bell_on_complete true \
