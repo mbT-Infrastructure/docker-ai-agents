@@ -1,17 +1,22 @@
 {
     "$schema": "https://opencode.ai/config.json",
     "agents": {
-        "plan": { "disabled": true }
+        "plan": { "disabled": true },
+        "title": {
+            "model": "container-config/{env:AI_CHEAP_MODEL}"
+        }
     },
     "model": "container-config/{env:AI_MODEL}",
-    "small_model": "container-config/{env:AI_CHEAP_MODEL}",
-    "provider": {
+    "providers": {
         "container-config": {
-            "npm": "@ai-sdk/openai-compatible",
+            "package": "@opencode/ai/providers/openai-compatible",
             "name": "container-config",
-            "options": {
+            "settings": {
+                "apiKey": "{env:AI_API_KEY}",
                 "baseURL": "{env:AI_API_URL}",
-                "apiKey": "{env:AI_API_KEY}"
+                "headerTimeout": false,
+                "chunkTimeout": false,
+                "timeout": {env:AI_REQUEST_TIMEOUT}000
             },
             "models": {
                 "default": {
@@ -25,7 +30,7 @@
                     "name": "fast",
                     "limit": {
                         "context": 64000,
-                        "output": 32000
+                        "output": 8000
                     }
                 },
                 "{env:AI_MODEL}": {
