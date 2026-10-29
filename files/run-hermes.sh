@@ -10,9 +10,15 @@ fi
 
 export SIGNAL_HOME_CHANNEL SIGNAL_HTTP_URL
 
-su user --login --whitelist-environment \
-    SIGNAL_ACCOUNT,SIGNAL_ALLOWED_USERS,SIGNAL_GROUP_ALLOWED_USERS,SIGNAL_HOME_CHANNEL,SIGNAL_HTTP_URL \
-    --command \
+COMMAND_RUNNER=(su user --login --whitelist-environment \
+    "SIGNAL_ACCOUNT,SIGNAL_ALLOWED_USERS,SIGNAL_GROUP_ALLOWED_USERS,SIGNAL_HOME_CHANNEL,SIGNAL_HTTP_URL" \
+    --command)
+if [[ "$EUID" -ne 0 ]]; then
+    COMMAND_RUNNER=(bash -c)
+fi
+
+
+exec "${COMMAND_RUNNER[@]}" \
     "hermes-install.sh --include-desktop --non-interactive \
     && mkdir --parents ~/.local/share/bash-completion/completions/ \
     && hermes completion bash > ~/.local/share/bash-completion/completions/hermes \
@@ -65,9 +71,9 @@ chown user:user /media/user/.hermes/.env
 chmod 600 /media/user/.hermes/.env
 
 PIDS=()
-su user --login --command "hermes gateway run" &
+exec "${COMMAND_RUNNER[@]}" "hermes gateway run" &
 PIDS+=("$!")
-su user --login --command "hermes dashboard --host 0.0.0.0 --port 11002 --skip-build" &
+exec "${COMMAND_RUNNER[@]}" "hermes dashboard --host 0.0.0.0 --port 11002 --skip-build" &
 PIDS+=("$!")
 
 wait -n "${PIDS[@]}"

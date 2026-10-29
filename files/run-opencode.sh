@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -e -o pipefail
 
-exec su user --login --command "mkdir --parents ~/.config/opencode/ \
+COMMAND_RUNNER=(su user --login --command)
+if [[ "$EUID" -ne 0 ]]; then
+    COMMAND_RUNNER=(bash -c)
+fi
+
+
+exec "${COMMAND_RUNNER[@]}" "mkdir --parents ~/.config/opencode/ \
     && ln --force --symbolic --target-directory ~/.config/opencode/ \
         /opt/ai-agent-library/{agents,skills} \
     && ln --force --symbolic --no-target-directory /opt/ai-agent-library/prompts \
