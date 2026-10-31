@@ -19,7 +19,7 @@ FROM docker.io/madebytimo/development-desktop
 ENV USER_GROUPS="user"
 ENV PIP_ROOT_USER_ACTION="ignore"
 
-RUN apt update -qq && apt install -y -qq jq ripgrep \
+RUN apt update -qq && apt install -y -qq jq proxychains4 ripgrep \
     && rm -rf /var/lib/apt/lists/* \
     && npm install --global @opencode/cli \
     && pip3-latest install browser-use open-terminal \
@@ -47,6 +47,8 @@ ENV BASE_PATH="/"
 ENV BRAVE_API_KEY=""
 ENV OPENCODE_CONFIG=/usr/local/share/opencode-config.json
 ENV OPEN_TERMINAL_API_KEY=""
+ENV PROXYCHAINS_CONF_FILE="/media/proxychains/proxychains.conf"
+ENV PROXYCHAINS_QUIET_MODE="1"
 ENV SIGNAL_ACCOUNT=""
 ENV SIGNAL_ALLOWED_USERS=""
 ENV SIGNAL_GROUP_ALLOWED_USERS=""

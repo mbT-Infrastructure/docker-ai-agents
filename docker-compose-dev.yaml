@@ -24,7 +24,8 @@ services:
             - /etc/X11/xorg.conf.d:size=1M
             - /tmp:exec
         volumes:
-            - "./data-local:/media/user"
+            - "./data-local/user:/media/user"
+            # - "./data-local/proxychains.conf:/media/proxychains/proxychains.conf"
         ports:
             - "127.0.0.1:8022:22"
             - "127.0.0.1:8002:11002"

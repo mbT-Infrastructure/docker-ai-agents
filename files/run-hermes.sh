@@ -18,7 +18,7 @@ if [[ "$EUID" -ne 0 ]]; then
 fi
 
 
-exec "${COMMAND_RUNNER[@]}" \
+"${COMMAND_RUNNER[@]}" \
     "hermes-install.sh --include-desktop --non-interactive \
     && mkdir --parents ~/.local/share/bash-completion/completions/ \
     && hermes completion bash > ~/.local/share/bash-completion/completions/hermes \
