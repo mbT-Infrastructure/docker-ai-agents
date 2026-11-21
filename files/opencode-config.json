@@ -7,7 +7,10 @@
             "model": "container-config/{env:AI_CHEAP_MODEL}"
         }
     },
-    "model": "container-config/{env:AI_MODEL}",
+    "model": "{env:OPENCODE_AI_MODEL}",
+    "plugins": [
+        "opencode-models-discovery"
+    ],
     "providers": {
         "container-config": {
             "package": "@opencode/ai/providers/openai-compatible",
@@ -15,46 +18,13 @@
             "settings": {
                 "apiKey": "{env:AI_API_KEY}",
                 "baseURL": "{env:AI_API_URL}",
-                "headerTimeout": false,
                 "chunkTimeout": false,
+                "headerTimeout": false,
+                "modelsDiscovery": {
+                    "enabled": true,
+                    "modelInfoFormat": "litellm"
+                },
                 "timeout": {env:AI_REQUEST_TIMEOUT}000
-            },
-            "models": {
-                "default": {
-                    "name": "default",
-                    "limit": {
-                        "context": 200000,
-                        "output": 32000
-                    }
-                },
-                "fast": {
-                    "name": "fast",
-                    "limit": {
-                        "context": 64000,
-                        "output": 8000
-                    }
-                },
-                "{env:AI_MODEL}": {
-                    "name": "{env:AI_MODEL}",
-                    "limit": {
-                        "context": {env:AI_CONTEXT_LENGTH},
-                        "output": 32000
-                    }
-                },
-                "{env:AI_CHEAP_MODEL}": {
-                    "name": "{env:AI_CHEAP_MODEL}",
-                    "limit": {
-                        "context": {env:AI_CONTEXT_LENGTH},
-                        "output": 32000
-                    }
-                },
-                "{env:AI_VISION_MODEL}": {
-                    "name": "{env:AI_VISION_MODEL}",
-                    "limit": {
-                        "context": {env:AI_CONTEXT_LENGTH},
-                        "output": 32000
-                    }
-                }
             }
         }
     }

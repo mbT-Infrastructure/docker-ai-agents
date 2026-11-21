@@ -45,6 +45,7 @@ ENV AI_NAME="AI-Assistant"
 ENV AI_REQUEST_TIMEOUT=1800
 ENV BASE_PATH="/"
 ENV BRAVE_API_KEY=""
+ENV OPENCODE_AI_MODEL=""
 ENV OPENCODE_CONFIG=/usr/local/share/opencode-config.json
 ENV OPEN_TERMINAL_API_KEY=""
 ENV PROXYCHAINS_CONF_FILE="/media/proxychains/proxychains.conf"
